@@ -28,6 +28,20 @@ const init = async () => {
     }
 };
 
+const getUser = async (username: string) => {
+    try {
+        const users = await init();
+        const user = users.findOne({ username: username });
+
+        return user;
+    } catch (err) {
+        console.log(err);
+        return null;
+    } finally {
+        if (client) await client.close();
+    }
+};
+
 const insertUser = async (user: IUser) => {
     try {
         const users = await init();
@@ -37,6 +51,19 @@ const insertUser = async (user: IUser) => {
     } catch (err) {
         console.log(err);
         return false;
+    } finally {
+        if (client) await client.close();
+    }
+};
+
+const getTodos = async (username: string) => {
+    try {
+        const user = await getUser(username);
+        if (user) return user.todos;
+        else return null;
+    } catch (err) {
+        console.log(err);
+        return null;
     } finally {
         if (client) await client.close();
     }
@@ -96,26 +123,13 @@ const deleteTodo = async (username: string, todo: ITodo) => {
     }
 };
 
-const getUser = async (username: string) => {
-    try {
-        const users = await init();
-        const user = users.findOne({ username: username });
-
-        return user;
-    } catch (err) {
-        console.log(err);
-        return undefined;
-    } finally {
-        if (client) await client.close();
-    }
-};
-
 const database = {
+    getUser: getUser,
     insertUser: insertUser,
+    getTodos: getTodos,
     insertTodo: insertTodo,
     deleteTodo: deleteTodo,
     updateTodo: updateTodo,
-    getUser: getUser,
 };
 
 export default database;
