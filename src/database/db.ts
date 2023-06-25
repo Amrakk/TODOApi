@@ -1,9 +1,10 @@
-import { MongoClient } from "mongodb";
 import IUser from "../interfaces/user.js";
 import ITodo from "../interfaces/todo.js";
+import { Collection, MongoClient } from "mongodb";
 
 const url = process.env.DB_URL ?? "";
 const client = new MongoClient(url);
+let users: Collection<IUser>;
 
 const init = async () => {
     try {
@@ -16,114 +17,108 @@ const init = async () => {
             (collection) => collection.collectionName === "Users"
         );
 
-        if (!collectionExists) {
-            await db.createCollection("Users");
-        }
+        if (!collectionExists) await db.createCollection("Users");
 
-        const users = db.collection<IUser>("Users");
-
-        return users;
+        users = db.collection<IUser>("Users");
     } catch (err) {
-        throw err;
+        console.log(err);
+    }
+};
+
+const close = async () => {
+    try {
+        await client.close();
+    } catch (err) {
+        console.log(err);
     }
 };
 
 const getUser = async (username: string) => {
     try {
-        const users = await init();
         const user = users.findOne({ username: username });
-
         return user;
     } catch (err) {
         console.log(err);
         return null;
-    } finally {
-        if (client) await client.close();
+    }
+};
+
+const getUserByID = async (id: string) => {
+    try {
+        const user = users.findOne({ id: id });
+        return user;
+    } catch (err) {
+        console.log(err);
+        return null;
     }
 };
 
 const insertUser = async (user: IUser) => {
     try {
-        const users = await init();
         await users.insertOne(user);
-
         return true;
     } catch (err) {
         console.log(err);
         return false;
-    } finally {
-        if (client) await client.close();
     }
 };
 
-const getTodos = async (username: string) => {
+const getTodos = async (id: string) => {
     try {
-        const user = await getUser(username);
+        const user = await getUserByID(id);
         if (user) return user.todos;
         else return null;
     } catch (err) {
         console.log(err);
         return null;
-    } finally {
-        if (client) await client.close();
     }
 };
 
-const insertTodo = async (username: string, todo: ITodo) => {
+const insertTodo = async (id: string, todo: ITodo) => {
     try {
-        const users = await init();
-
-        await users.updateOne(
-            { username: username },
+        const result = await users.updateOne(
+            { id: id },
             { $push: { todos: todo } }
         );
 
-        return true;
+        return result.acknowledged;
     } catch (err) {
         console.log(err);
         return false;
-    } finally {
-        if (client) await client.close();
     }
 };
 
-const updateTodo = async (username: string, todo: ITodo) => {
+const updateTodo = async (id: string, todo: ITodo) => {
     try {
-        const users = await init();
-
-        await users.updateOne(
-            { username: username, todos: { $elemMatch: { id: todo.id } } },
+        const result = await users.updateOne(
+            { id: id, todos: { $elemMatch: { id: todo.id } } },
             { $set: { "todos.$.completed": todo.completed } }
         );
 
-        return true;
+        return result.acknowledged;
     } catch (err) {
         console.log(err);
         return false;
-    } finally {
-        if (client) await client.close();
     }
 };
 
-const deleteTodo = async (username: string, todo: ITodo) => {
+const deleteTodo = async (id: string, todoID: string) => {
     try {
-        const users = await init();
-
-        await users.updateOne(
-            { username: username },
-            { $pull: { todos: todo } }
+        const result = await users.updateOne(
+            { id: id, "todos.id": todoID },
+            { $pull: { todos: { id: todoID } } }
         );
 
-        return true;
+        return result.acknowledged;
     } catch (err) {
         console.log(err);
         return false;
-    } finally {
-        if (client) await client.close();
     }
 };
 
 const database = {
+    init: init,
+    close: close,
     getUser: getUser,
     insertUser: insertUser,
     getTodos: getTodos,
