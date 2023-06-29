@@ -9,9 +9,9 @@ router.post("/api/v1/signup", api.signup);
 router.get("/api/v1/verify", verify, api.authorize);
 
 router.use(verify);
-router.get("/api/v1/getTodos", api.getTodos);
-router.put("/api/v1/updateTodo", api.updateTodo);
-router.post("/api/v1/insertTodo", api.insertTodo);
-router.delete("/api/v1/deleteTodo", api.deleteTodo);
+router.get("/api/v1/todos", api.getTodos);
+router.put("/api/v1/todos", api.updateTodo);
+router.post("/api/v1/todos", api.insertTodo);
+router.delete("/api/v1/todos", api.deleteTodo);
 
 export default router;
