@@ -56,9 +56,15 @@ const todoPaths = {
                 content: {
                     "application/json": {
                         schema: {
-                            type: "string",
-                            description: "Todo content to be inserted",
-                            example: "Troll",
+                            type: "object",
+                            required:  ["content"],
+                            properties: {
+                                content: {
+                                    type: "string",                      
+                                    description: "Todo content to be inserted",
+                                    example: "Troll",
+                                },
+                            },
                         },
                     },
                 },
@@ -84,9 +90,15 @@ const todoPaths = {
                 content: {
                     "application/json": {
                         schema: {
-                            type: "string",
-                            description: "Todo id to be deleted",
-                            example: "123abc",
+                            type: "object",
+                            required: ["id"],
+                            properties: {
+                                id: {
+                                    type: "string",                      
+                                    description: "Todo id to be deleted",
+                                    example: "123abc",
+                                },
+                            },  
                         },
                     },
                 },
