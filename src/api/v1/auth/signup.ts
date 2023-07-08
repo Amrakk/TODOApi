@@ -7,7 +7,7 @@ import IUser from "../../../interfaces/user.js";
 export default async function signup(req: Request, res: Response) {
     const { username, password } = req.body;
 
-    if (await database.getUser(username))
+    if (await database.getUserByUsername(username))
         return res.status(400).json({ message: "Username already exists" });
 
     const salt = bcrypt.genSaltSync(10);
@@ -15,8 +15,10 @@ export default async function signup(req: Request, res: Response) {
 
     const data: IUser = {
         id: uuidv4(),
+        email: "",
         username: username,
         password: hash,
+        isActivated: false,
         todos: [],
     };
 

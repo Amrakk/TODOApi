@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 
-interface User {
+interface ICookieUser {
     id: string;
     iat: number;
     exp: number;
@@ -15,14 +15,12 @@ export default function verify(
     const token = req.cookies.token;
 
     try {
-        const user = jwt.verify(
+        const { id } = jwt.verify(
             token,
             process.env.SECRET_KEY as string
-        ) as User;
+        ) as ICookieUser;
 
-        if (!user) return res.status(400).json({ message: "Invalid token" });
-
-        req.body.id = user.id;
+        req.body.id = id;
         return next();
     } catch (error) {
         return res.status(400).json({ message: "Invalid token" });

@@ -5,7 +5,7 @@ import database from "../../../database/db.js";
 
 export default async function login(req: Request, res: Response) {
     const { username, password } = req.body;
-    const user = await database.getUser(username);
+    const user = await database.getUserByUsername(username);
 
     if (!user) return res.status(400).json({ message: "Invalid credential" });
     else if (!bcrypt.compareSync(password, user.password))

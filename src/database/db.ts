@@ -33,9 +33,19 @@ const close = async () => {
     }
 };
 
-const getUser = async (username: string) => {
+const getUserByUsername = async (username: string) => {
     try {
         const user = users.findOne({ username: username });
+        return user;
+    } catch (err) {
+        console.log(err);
+        return null;
+    }
+};
+
+const getUserByEmail = async (email: string) => {
+    try {
+        const user = users.findOne({ email: email });
         return user;
     } catch (err) {
         console.log(err);
@@ -63,11 +73,26 @@ const insertUser = async (user: IUser) => {
     }
 };
 
+const activateUser = async (email: string) => {
+    try {
+        const result = await users.updateOne(
+            { email: email },
+            { $set: { isActivated: true } }
+        );
+
+        if (result.modifiedCount === 0) return 1;
+        return result.acknowledged;
+    } catch (err) {
+        console.log(err);
+        return false;
+    }
+};
+
 const getTodos = async (id: string) => {
     try {
         const user = await getUserByID(id);
         if (user) return user.todos;
-        else return null;
+        return null;
     } catch (err) {
         console.log(err);
         return null;
@@ -119,8 +144,11 @@ const deleteTodo = async (id: string, todoID: string) => {
 const database = {
     init: init,
     close: close,
-    getUser: getUser,
+    getUserByID: getUserByID,
+    getUserByEmail: getUserByEmail,
+    getUserByUsername: getUserByUsername,
     insertUser: insertUser,
+    activateUser: activateUser,
     getTodos: getTodos,
     insertTodo: insertTodo,
     deleteTodo: deleteTodo,
