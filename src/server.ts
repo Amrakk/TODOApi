@@ -13,7 +13,6 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
 app.use(router);
 
 app.listen(process.env.PORT, () => {

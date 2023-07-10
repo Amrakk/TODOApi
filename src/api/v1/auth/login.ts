@@ -16,5 +16,6 @@ export default async function login(req: Request, res: Response) {
     });
 
     res.cookie("token", token);
+    console.log("User: ", username);
     return res.status(200).json({ message: "Valid credential" });
 }
