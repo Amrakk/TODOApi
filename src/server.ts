@@ -1,3 +1,4 @@
+import cors from "cors";
 import express from "express";
 import router from "./routes/api.js";
 import database from "./database/db.js";
@@ -7,6 +8,7 @@ import { swaggerSpec } from "./api/index.js";
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 

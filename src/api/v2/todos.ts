@@ -4,7 +4,7 @@ import database from "../../database/db.js";
 import ITodo from "../../interfaces/todo.js";
 
 export async function getTodos(req: Request, res: Response) {
-    const id = req.body.id;
+    const id = req.user.id;
 
     const todos = await database.getTodos(id);
     if (!todos) return res.status(500).json({ message: "Failed to get todo" });
@@ -13,7 +13,7 @@ export async function getTodos(req: Request, res: Response) {
 }
 
 export async function updateTodo(req: Request, res: Response) {
-    const id = req.body.id;
+    const id = req.user.id;
     const todo = req.body.todo ?? "";
 
     if (!todo) return res.status(400).json({ message: "No todo provided" });
@@ -26,7 +26,7 @@ export async function updateTodo(req: Request, res: Response) {
 }
 
 export function deleteTodo(req: Request, res: Response) {
-    const id = req.body.id;
+    const id = req.user.id;
     const todoID = req.body.todoID ?? "";
 
     if (!todoID) return res.status(400).json({ message: "No todo provided" });
@@ -39,7 +39,7 @@ export function deleteTodo(req: Request, res: Response) {
 }
 
 export async function insertTodo(req: Request, res: Response) {
-    const id = req.body.id;
+    const id = req.user.id;
     const content = req.body.content as string;
 
     if (!content) return res.status(400).json({ message: "No todo provided" });

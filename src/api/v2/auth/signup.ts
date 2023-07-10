@@ -27,12 +27,10 @@ export default async function signup(req: Request, res: Response) {
             .status(400)
             .json({ message: "Email already exists", data: "" });
     if (await database.getUserByUsername(username))
-        return res
-            .status(400)
-            .json({
-                message: "Username already exists",
-                data: recommendedUsername(username),
-            });
+        return res.status(400).json({
+            message: "Username already exists",
+            data: await recommendedUsername(username),
+        });
 
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);

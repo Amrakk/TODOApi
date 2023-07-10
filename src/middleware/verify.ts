@@ -20,7 +20,7 @@ export default function verify(
             process.env.SECRET_KEY as string
         ) as ICookieUser;
 
-        req.body.id = id;
+        req.user.id = id;
         return next();
     } catch (error) {
         return res.status(400).json({ message: "Invalid token" });

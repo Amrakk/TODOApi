@@ -41,7 +41,7 @@ export function deleteTodo(req: Request, res: Response) {
 export async function insertTodo(req: Request, res: Response) {
     const id = req.body.id;
     const content = req.body.content as string;
-
+    console.log(content);
     if (!content) return res.status(400).json({ message: "No todo provided" });
 
     if (content.length > 100)

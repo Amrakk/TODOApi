@@ -12,7 +12,8 @@ export default async function recommendedUsername(username: string) {
 }
 
 async function generateUsername(username: string, usernames: string[]) {
-    // validate generated username: use valUsername and not exist in usernames
+    // TODO - validate generated username: use valUsername and not exist in usernames
+
     return "";
 }
 
