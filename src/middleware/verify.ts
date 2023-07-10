@@ -1,5 +1,16 @@
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
+import IUser from "../interfaces/user.js";
+
+declare global {
+    namespace Express {
+        interface Request {
+            ctx: {
+                id: string;
+            };
+        }
+    }
+}
 
 interface ICookieUser {
     id: string;
@@ -20,9 +31,10 @@ export default function verify(
             process.env.SECRET_KEY as string
         ) as ICookieUser;
 
-        req.user.id = id;
+        req.ctx = { id };
         return next();
     } catch (error) {
+        console.log(error);
         return res.status(400).json({ message: "Invalid token" });
     }
 }
