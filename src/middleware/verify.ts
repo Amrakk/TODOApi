@@ -1,16 +1,6 @@
+import "../declare.js";
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
-import IUser from "../interfaces/user.js";
-
-declare global {
-    namespace Express {
-        interface Request {
-            ctx: {
-                id: string;
-            };
-        }
-    }
-}
 
 interface ICookieUser {
     id: string;
@@ -23,8 +13,7 @@ export default function verify(
     res: Response,
     next: NextFunction
 ) {
-    const token = req.cookies.token;
-
+    const token = req.cookies.token ?? "";
     try {
         const { id } = jwt.verify(
             token,
