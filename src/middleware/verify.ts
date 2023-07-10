@@ -13,8 +13,10 @@ export default function verify(
     res: Response,
     next: NextFunction
 ) {
-    const token = req.cookies.token ?? "";
     try {
+        const token = req.cookies.token;
+        if (!token) return res.status(400).json({ message: "Access denied" });
+
         const { id } = jwt.verify(
             token,
             process.env.SECRET_KEY as string
@@ -23,7 +25,6 @@ export default function verify(
         req.ctx = { id };
         return next();
     } catch (error) {
-        console.log(error);
         return res.status(400).json({ message: "Invalid token" });
     }
 }
