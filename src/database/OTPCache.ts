@@ -6,22 +6,32 @@ const url =
         : process.env.REDIS_EX_URL ?? "";
 let redis: Redis;
 
-const init = async () => {
-    try {
+const init = () => {
+    return new Promise<void>((resolve, reject) => {
         redis = new Redis(url);
-        console.log("Cache connected");
-    } catch (err) {
-        console.log(err);
-    }
+        redis.on("connect", () => {
+            console.log("Cache connected");
+            resolve();
+        });
+        redis.on("error", (err) => {
+            console.log(err);
+            reject(err);
+        });
+    });
 };
 
-const close = async () => {
-    try {
-        redis.disconnect();
-        console.log("Cache disconnected");
-    } catch (err) {
-        console.log(err);
-    }
+const close = () => {
+    return new Promise<void>((resolve, reject) => {
+        redis = new Redis(url);
+        redis.on("disconnect", () => {
+            console.log("Cache disconnected");
+            resolve();
+        });
+        redis.on("error", (err) => {
+            console.log(err);
+            reject(err);
+        });
+    });
 };
 
 const setOTP = async (email: string) => {
