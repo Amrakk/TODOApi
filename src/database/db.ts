@@ -20,6 +20,7 @@ const init = async () => {
         if (!collectionExists) await db.createCollection("Users");
 
         users = db.collection<IUser>("Users");
+        console.log("Database connected");
     } catch (err) {
         console.log(err);
     }
@@ -28,6 +29,7 @@ const init = async () => {
 const close = async () => {
     try {
         await client.close();
+        console.log("Database disconnected");
     } catch (err) {
         console.log(err);
     }
@@ -67,6 +69,20 @@ const insertUser = async (user: IUser) => {
     try {
         await users.insertOne(user);
         return true;
+    } catch (err) {
+        console.log(err);
+        return false;
+    }
+};
+
+const updatePassword = async (email: string, password: string) => {
+    try {
+        const result = await users.updateOne(
+            { email: email },
+            { $set: { password: password } }
+        );
+
+        return result.acknowledged;
     } catch (err) {
         console.log(err);
         return false;
@@ -142,17 +158,18 @@ const deleteTodo = async (id: string, todoID: string) => {
 };
 
 const database = {
-    init: init,
-    close: close,
-    getUserByID: getUserByID,
-    getUserByEmail: getUserByEmail,
-    getUserByUsername: getUserByUsername,
-    insertUser: insertUser,
-    activateUser: activateUser,
-    getTodos: getTodos,
-    insertTodo: insertTodo,
-    deleteTodo: deleteTodo,
-    updateTodo: updateTodo,
+    init,
+    close,
+    getUserByID,
+    getUserByEmail,
+    getUserByUsername,
+    insertUser,
+    activateUser,
+    updatePassword,
+    getTodos,
+    insertTodo,
+    deleteTodo,
+    updateTodo,
 };
 
 export default database;

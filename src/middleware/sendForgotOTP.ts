@@ -1,14 +1,7 @@
-import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
+import cache from "../database/OTPCache.js";
 
-export default async function sendActivationURL(email: string) {
-    const host = process.env.CLIENT_HOST ?? "";
-
-    const token = jwt.sign({ email: email }, process.env.SECRET_KEY as string, {
-        expiresIn: "20m",
-    });
-
-    const url = `${host}/activate?token=${token}`;
+export default async function sendForgotOTP(email: string) {
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -17,14 +10,17 @@ export default async function sendActivationURL(email: string) {
         },
     });
 
+    const otp = await cache.setOTP(email);
+    if (!otp) return false;
+
     const mailOptions = {
         from: "hoangduy12823@gmail.com",
         to: email,
-        subject: "Account Activation",
+        subject: "Reset Password",
         text:
-            "Click the link to activate your account: " +
-            url +
-            "\n\nThis link will expire in 20 minutes!!!",
+            "Enter this OTP to reset your password: " +
+            otp +
+            "\n\nThis OTP will expire in 5 minutes!!!",
     };
 
     try {

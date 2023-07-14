@@ -1,12 +1,7 @@
 import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
 import database from "../../../database/db.js";
-
-interface IEmailToken {
-    email: string;
-    iat: number;
-    exp: number;
-}
+import IEmailToken from "../../../interfaces/emailToken.js";
 
 export default async function activate(req: Request, res: Response) {
     const { token } = req.query ?? "";
