@@ -12,8 +12,11 @@ const todoPaths = {
                 200: {
                     $ref: "#/components/responses/200",
                 },
-                400: {
-                    $ref: "#/components/responses/400",
+                401: {
+                    $ref: "#/components/responses/401",
+                },
+                500: {
+                    $ref: "#/components/responses/500",
                 },
             },
         },
@@ -41,6 +44,12 @@ const todoPaths = {
                 400: {
                     $ref: "#/components/responses/400",
                 },
+                401: {
+                    $ref: "#/components/responses/401",
+                },
+                500: {
+                    $ref: "#/components/responses/500",
+                },
             },
         },
         post: {
@@ -57,10 +66,10 @@ const todoPaths = {
                     "application/json": {
                         schema: {
                             type: "object",
-                            required:  ["content"],
+                            required: ["content"],
                             properties: {
                                 content: {
-                                    type: "string",                      
+                                    type: "string",
                                     description: "Todo content to be inserted",
                                     example: "Troll",
                                 },
@@ -70,11 +79,17 @@ const todoPaths = {
                 },
             },
             responses: {
-                200: {
-                    $ref: "#/components/responses/200",
+                201: {
+                    $ref: "#/components/responses/201",
                 },
                 400: {
                     $ref: "#/components/responses/400",
+                },
+                401: {
+                    $ref: "#/components/responses/401",
+                },
+                500: {
+                    $ref: "#/components/responses/500",
                 },
             },
         },
@@ -94,11 +109,11 @@ const todoPaths = {
                             required: ["id"],
                             properties: {
                                 id: {
-                                    type: "string",                      
+                                    type: "string",
                                     description: "Todo id to be deleted",
                                     example: "123abc",
                                 },
-                            },  
+                            },
                         },
                     },
                 },
@@ -109,6 +124,12 @@ const todoPaths = {
                 },
                 400: {
                     $ref: "#/components/responses/400",
+                },
+                401: {
+                    $ref: "#/components/responses/401",
+                },
+                500: {
+                    $ref: "#/components/responses/500",
                 },
             },
         },

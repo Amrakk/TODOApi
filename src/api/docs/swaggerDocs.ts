@@ -7,17 +7,17 @@ const swaggerDefinition = {
     openapi: "3.0.0",
     info: {
         title: "TODO API",
-        version: "1.0.0",
+        version: "2.0.0",
         description: "TODO API Documentation",
     },
     servers: [
         {
-            url: "http://localhost:3000/api/v1/",
-            description: "Development server",
+            url: "https://todoapi-uxe5.onrender.com/api/v2/",
+            description: "Production server",
         },
         {
-            url: "https://todoapi-uxe5.onrender.com/api/v1/",
-            description: "Production server",
+            url: "http://localhost:3000/api/v2/",
+            description: "Development server",
         },
     ],
     tags: [
@@ -36,7 +36,7 @@ const swaggerDefinition = {
 
 const options = {
     swaggerDefinition,
-    apis: ["./src/api/v1/*.ts"],
+    apis: ["./src/api/v2/*.ts"],
 };
 
 const swaggerSpec = swaggerJSDoc(options);

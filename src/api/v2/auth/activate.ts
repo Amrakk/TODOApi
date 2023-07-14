@@ -10,7 +10,7 @@ interface IEmailToken {
 
 export default async function activate(req: Request, res: Response) {
     const { token } = req.query ?? "";
-    if (!token) return res.status(400).json({ message: "Invalid token" });
+    if (!token) return res.status(401).json({ message: "Invalid token" });
     try {
         const { email } = jwt.verify(
             token.toString(),
@@ -30,6 +30,6 @@ export default async function activate(req: Request, res: Response) {
         return res.status(200).json({ message: "Account activated" });
     } catch (error) {
         console.log(error);
-        return res.status(400).json({ message: "Invalid token" });
+        return res.status(401).json({ message: "Invalid token" });
     }
 }

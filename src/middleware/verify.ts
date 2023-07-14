@@ -14,8 +14,8 @@ export default function verify(
     next: NextFunction
 ) {
     try {
-        const token = req.cookies.token;
-        if (!token) return res.status(400).json({ message: "Access denied" });
+        const token = req.cookies.token ?? null;
+        if (!token) return res.status(401).json({ message: "Invalid token" });
 
         const { id } = jwt.verify(
             token,
@@ -25,6 +25,6 @@ export default function verify(
         req.ctx = { id };
         return next();
     } catch (error) {
-        return res.status(400).json({ message: "Invalid token" });
+        return res.status(401).json({ message: "Invalid token" });
     }
 }

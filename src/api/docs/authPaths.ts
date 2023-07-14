@@ -51,6 +51,15 @@ const authPaths = {
                 400: {
                     $ref: "#/components/responses/400",
                 },
+                401: {
+                    $ref: "#/components/responses/401",
+                },
+                403: {
+                    $ref: "#/components/responses/403",
+                },
+                500: {
+                    $ref: "#/components/responses/500",
+                },
             },
         },
     },
@@ -65,6 +74,10 @@ const authPaths = {
                             type: "object",
                             required: ["username", "password"],
                             properties: {
+                                email: {
+                                    type: "string",
+                                    example: "example@gmail.com",
+                                },
                                 username: {
                                     type: "string",
                                     example: "admin",
@@ -79,17 +92,55 @@ const authPaths = {
                 },
             },
             responses: {
+                201: {
+                    $ref: "#/components/responses/201",
+                },
+                400: {
+                    $ref: "#/components/responses/400",
+                },
+                409: {
+                    $ref: "#/components/responses/409",
+                },
+                500: {
+                    $ref: "#/components/responses/500",
+                },
+            },
+        },
+    },
+    "/activate": {
+        post: {
+            tags: ["Auth"],
+            summary: "Activate user account",
+            parameters: [
+                {
+                    in: "query",
+                    name: "link",
+                    schema: {
+                        type: "string",
+                        description: "Activation link",
+                        exmaple:
+                            "http://localhost:5000/api/auth/activate?token=MTYyMjIyMjIyMjIyMjIyMg",
+                    },
+                },
+            ],
+            responses: {
                 200: {
                     $ref: "#/components/responses/200",
                 },
                 400: {
                     $ref: "#/components/responses/400",
                 },
+                401: {
+                    $ref: "#/components/responses/401",
+                },
+                500: {
+                    $ref: "#/components/responses/500",
+                },
             },
         },
     },
     "/verify": {
-        get: {
+        post: {
             tags: ["Auth"],
             summary: "Get token from cookie then verify it",
             parameters: [
@@ -108,8 +159,8 @@ const authPaths = {
                 200: {
                     $ref: "#/components/responses/200",
                 },
-                400: {
-                    $ref: "#/components/responses/400",
+                401: {
+                    $ref: "#/components/responses/401",
                 },
             },
         },

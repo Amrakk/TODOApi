@@ -64,5 +64,5 @@ export async function insertTodo(req: Request, res: Response) {
     if (!insertedTodo)
         return res.status(500).json({ message: "Todo is not inserted" });
 
-    return res.status(200).json({ message: "ok" });
+    return res.status(201).json({ message: "Todo created" });
 }

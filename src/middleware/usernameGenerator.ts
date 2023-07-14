@@ -24,7 +24,7 @@ function generateUsername(username: string) {
     randomString =
         randomString.substring(0, alphabeticPosition) +
         String.fromCharCode(alphaCharCode) +
-        randomString.substring(alphabeticPosition + 1);
+        randomString.substring(alphabeticPosition);
 
     return username + randomString;
 }
