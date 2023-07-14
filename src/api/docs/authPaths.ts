@@ -165,6 +165,30 @@ const authPaths = {
             },
         },
     },
+    "/logout": {
+        post: {
+            tags: ["Auth"],
+            summary: "Logout from the application",
+            parameters: [
+                {
+                    in: "cookie",
+                    name: "token",
+                    schema: {
+                        type: "string",
+                        description: "Token from cookie",
+                    },
+                },
+            ],
+            responses: {
+                200: {
+                    $ref: "#/components/responses/200",
+                },
+                401: {
+                    $ref: "#/components/responses/401",
+                },
+            },
+        },
+    },
 };
 
 export default authPaths;
