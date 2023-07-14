@@ -15,17 +15,19 @@ export default async function signup(req: Request, res: Response) {
     const { username, password, email } = req.body;
 
     if (!username || !password || !email)
-        return res.status(400).json({ message: "Invalid credentials" });
+        return res
+            .status(400)
+            .json({ message: "Invalid credentials", data: [] });
     if (!valEmail(email))
-        return res.status(400).json({ message: "Invalid email" });
+        return res.status(400).json({ message: "Invalid email", data: [] });
     if (!valUsername(username))
-        return res.status(400).json({ message: "Invalid username" });
+        return res.status(400).json({ message: "Invalid username", data: [] });
     if (!valPassword(password))
-        return res.status(400).json({ message: "Invalid password" });
+        return res.status(400).json({ message: "Invalid password", data: [] });
     if (await database.getUserByEmail(email))
         return res
             .status(400)
-            .json({ message: "Email already exists", data: "" });
+            .json({ message: "Email already exists", data: [] });
     if (await database.getUserByUsername(username))
         return res.status(400).json({
             message: "Username already exists",

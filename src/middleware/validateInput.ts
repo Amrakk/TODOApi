@@ -12,7 +12,7 @@ export function valUsername(username: string) {
 
 export function valPassword(password: string) {
     var passwordRegex = new RegExp(
-        "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[a-zA-Z0-9]{8,15}$"
+        "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[a-zA-Z0-9]{8,}$"
     );
     return passwordRegex.test(password);
 }

@@ -1,24 +1,36 @@
-import { valUsername } from "./validateInput.js";
 import database from "../database/db.js";
 
 export default async function recommendedUsername(username: string) {
-    const usernames = [];
+    const usernames: string[] = [];
     while (usernames.length < 3) {
-        const generatedUsername = await generateUsername(username, usernames);
-        if (!(await isUsernameExist(generatedUsername)))
+        const generatedUsername = await generateUsername(username);
+        if (
+            !(await isUsernameExist(generatedUsername)) &&
+            !usernames.includes(generatedUsername)
+        )
             usernames.push(generatedUsername);
     }
     return usernames;
 }
 
-async function generateUsername(username: string, usernames: string[]) {
-    // TODO - validate generated username: use valUsername and not exist in usernames
+function generateUsername(username: string) {
+    let randomString = "";
+    for (let i = 0; i < 3; i++)
+        randomString += Math.floor(Math.random() * 10).toString();
 
-    return "";
+    const alphabeticPosition = Math.floor(Math.random() * 4);
+    const alphaCharCode = Math.floor(Math.random() * 26) + 65;
+
+    randomString =
+        randomString.substring(0, alphabeticPosition) +
+        String.fromCharCode(alphaCharCode) +
+        randomString.substring(alphabeticPosition + 1);
+
+    return username + randomString;
 }
 
 async function isUsernameExist(username: string) {
     const user = await database.getUserByUsername(username);
-    if (user) return false;
-    return true;
+    if (user) return true;
+    return false;
 }

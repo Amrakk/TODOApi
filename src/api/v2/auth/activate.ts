@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import { valEmail } from "../../../middleware/validateInput.js";
 import { Request, Response } from "express";
 import database from "../../../database/db.js";
 

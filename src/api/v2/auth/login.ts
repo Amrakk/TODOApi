@@ -1,8 +1,8 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
-import sendActivationURL from "../../../middleware/sendActivationURL.js";
 import database from "../../../database/db.js";
+import sendActivationURL from "../../../middleware/sendActivationURL.js";
 import { valUsername, valPassword } from "../../../middleware/validateInput.js";
 
 export default async function login(req: Request, res: Response) {
