@@ -33,6 +33,7 @@ export default async function login(req: Request, res: Response) {
         expiresIn: "5h",
     });
 
-    res.cookie("token", token);
+    res.cookie("token", token, { httpOnly: true });
+
     return res.status(200).json({ message: "Valid credentials" });
 }

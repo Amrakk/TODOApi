@@ -8,7 +8,7 @@ export default async function sendActivationURL(email: string) {
         expiresIn: "20m",
     });
 
-    const url = `${host}/api/v2/activate?token=${token}`;
+    const url = `${host}?token=${token}`;
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {

@@ -8,6 +8,7 @@ router.post("/api/v2/login", api.login);
 router.post("/api/v2/signup", api.signup);
 router.post("/api/v2/activate", api.activate);
 router.post("/api/v2/verify", verify, api.authorize);
+router.post("/api/v2/logout", verify, api.logout);
 
 router.use(verify);
 router.get("/api/v2/todos", api.getTodos);
