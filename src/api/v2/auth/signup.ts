@@ -22,10 +22,12 @@ export default async function signup(req: Request, res: Response) {
         return res.status(400).json({ message: "Invalid username" });
     if (!valPassword(password))
         return res.status(400).json({ message: "Invalid password" });
+
     if (await database.getUserByEmail(email))
-        return res
-            .status(409)
-            .json({ message: "Email already exists", data: [] });
+        return res.status(409).json({
+            message: "Email already exists",
+            data: [],
+        });
     if (await database.getUserByUsername(username))
         return res.status(409).json({
             message: "Username already exists",
@@ -51,7 +53,7 @@ export default async function signup(req: Request, res: Response) {
     const sendResult = await sendActivationURL(data.email);
     if (!sendResult)
         return res.status(500).json({
-            message: "Error sending verification email. Try again later!",
+            message: "Error sending verification email",
         });
 
     return res.status(201).json({ message: "User created" });

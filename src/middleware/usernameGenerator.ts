@@ -2,6 +2,7 @@ import database from "../database/db.js";
 
 export default async function recommendedUsername(username: string) {
     const usernames: string[] = [];
+
     while (usernames.length < 3) {
         const generatedUsername = await generateUsername(username);
         if (
@@ -10,23 +11,32 @@ export default async function recommendedUsername(username: string) {
         )
             usernames.push(generatedUsername);
     }
+
     return usernames;
 }
 
 function generateUsername(username: string) {
-    let randomString = "";
-    for (let i = 0; i < 3; i++)
-        randomString += Math.floor(Math.random() * 10).toString();
+    return new Promise<string>((resolve, reject) => {
+        let randomString = "";
+        for (let i = 0; i < 3; i++)
+            randomString += Math.floor(Math.random() * 10).toString();
 
-    const alphabeticPosition = Math.floor(Math.random() * 4);
-    const alphaCharCode = Math.floor(Math.random() * 26) + 65;
+        const alphabeticPosition = Math.floor(Math.random() * 4);
+        const alphaCharCode = Math.floor(Math.random() * 26) + 65;
 
-    randomString =
-        randomString.substring(0, alphabeticPosition) +
-        String.fromCharCode(alphaCharCode) +
-        randomString.substring(alphabeticPosition);
+        randomString =
+            randomString.substring(0, alphabeticPosition) +
+            String.fromCharCode(alphaCharCode) +
+            randomString.substring(alphabeticPosition);
 
-    return username + randomString;
+        const generatedUsername = username + randomString;
+
+        if (generatedUsername) {
+            resolve(generatedUsername);
+        } else {
+            reject("Failed to generate a username.");
+        }
+    });
 }
 
 async function isUsernameExist(username: string) {

@@ -8,7 +8,7 @@ export default async function resetPassword(req: Request, res: Response) {
     const { email, otp, password } = req.body;
 
     if (!email || !otp || !password)
-        return res.status(400).json({ message: "Invalid request" });
+        return res.status(400).json({ message: "Invalid credentials " });
     if (!valEmail(email))
         return res.status(400).json({ message: "Invalid email" });
     if (!valPassword(password))
@@ -22,7 +22,7 @@ export default async function resetPassword(req: Request, res: Response) {
 
     const isUpdated = await database.updatePassword(email, hash);
     if (!isUpdated)
-        return res.status(500).json({ message: "Internal server error" });
+        return res.status(500).json({ message: "Error updating password" });
 
-    res.status(200).json({ message: "Password updated" });
+    return res.status(200).json({ message: "Password updated" });
 }

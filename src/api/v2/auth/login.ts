@@ -17,14 +17,14 @@ export default async function login(req: Request, res: Response) {
 
     const user = await database.getUserByUsername(username);
     if (!user) return res.status(401).json({ message: "Invalid credentials" });
-    else if (!bcrypt.compareSync(password, user.password))
+    if (!bcrypt.compareSync(password, user.password))
         return res.status(401).json({ message: "Invalid credentials" });
 
     if (user.isActivated === false) {
         const result = await sendActivationURL(user.email);
         if (!result)
             return res.status(500).json({
-                message: "Error sending verification email. Try again later!",
+                message: "Error sending verification email",
             });
         return res.status(403).json({ message: "Account not activated" });
     }
@@ -34,6 +34,5 @@ export default async function login(req: Request, res: Response) {
     });
 
     res.cookie("token", token, { httpOnly: true });
-
     return res.status(200).json({ message: "Valid credentials" });
 }
