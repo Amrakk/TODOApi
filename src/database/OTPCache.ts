@@ -59,4 +59,5 @@ const cache = {
     getOTP,
     verifyOTP,
 };
+
 export default cache;

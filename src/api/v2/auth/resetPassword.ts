@@ -24,5 +24,5 @@ export default async function resetPassword(req: Request, res: Response) {
     if (!isUpdated)
         return res.status(500).json({ message: "Internal server error" });
 
-    res.status(200).json({ message: "Password updated" });
+    return res.status(200).json({ message: "Password updated" });
 }

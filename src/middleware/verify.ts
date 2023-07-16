@@ -1,12 +1,7 @@
 import "../declare.js";
 import jwt from "jsonwebtoken";
+import IIdCookie from "../interfaces/userCookie.js";
 import { Request, Response, NextFunction } from "express";
-
-interface ICookieUser {
-    id: string;
-    iat: number;
-    exp: number;
-}
 
 export default function verify(
     req: Request,
@@ -20,7 +15,7 @@ export default function verify(
         const { id } = jwt.verify(
             token,
             process.env.SECRET_KEY as string
-        ) as ICookieUser;
+        ) as IIdCookie;
 
         req.ctx = { id };
         return next();
