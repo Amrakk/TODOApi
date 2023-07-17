@@ -16,7 +16,7 @@ export default async function activate(req: Request, res: Response) {
         const result = await database.activateUser(email);
         if (!result)
             return res.status(500).json({
-                message: "Failed while activate account",
+                message: "Error activating account",
             });
         if (result === 1)
             return res.status(400).json({

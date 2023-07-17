@@ -189,6 +189,86 @@ const authPaths = {
             },
         },
     },
+    "/forgot-password": {
+        post: {
+            tags: ["Auth"],
+            summary: "Send reset password otp to user email",
+            requestBody: {
+                content: {
+                    "application/json": {
+                        schema: {
+                            type: "object",
+                            required: ["email"],
+                            properties: {
+                                email: {
+                                    type: "string",
+                                    description: "User email",
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+            responses: {
+                200: {
+                    $ref: "#/components/responses/200",
+                },
+                400: {
+                    $ref: "#/components/responses/400",
+                },
+                404: {
+                    $ref: "#/components/responses/404",
+                },
+                500: {
+                    $ref: "#/components/responses/500",
+                },
+            },
+        },
+    },
+    "/reset-password": {
+        post: {
+            tags: ["Auth"],
+            summary: "Reset user password",
+            requestbody: {
+                content: {
+                    "application/json": {
+                        schema: {
+                            type: "object",
+                            required: ["otp", "password"],
+                            properties: {
+                                email: {
+                                    type: "string",
+                                    description: "User email",
+                                },
+                                otp: {
+                                    type: "string",
+                                    description: "OTP from email",
+                                },
+                                password: {
+                                    type: "string",
+                                    description: "New password",
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+            responses: {
+                200: {
+                    $ref: "#/components/responses/200",
+                },
+                400: {
+                    $ref: "#/components/responses/400",
+                },
+                403: {
+                    $ref: "#/components/responses/403",
+                },
+                500: {
+                    $ref: "#/components/responses/500",
+                },
+            },
+        },
+    },
 };
 
 export default authPaths;

@@ -7,7 +7,7 @@ export async function getTodos(req: Request, res: Response) {
     const id = req.ctx.id;
 
     const todos = await database.getTodos(id);
-    if (!todos) return res.status(500).json({ message: "Failed to get todo" });
+    if (!todos) return res.status(500).json({ message: "Error getting todo" });
 
     return res.status(200).json({ message: "Todos get", todos: todos });
 }
@@ -20,7 +20,7 @@ export async function updateTodo(req: Request, res: Response) {
 
     const updatedTodo = await database.updateTodo(id, todo);
     if (!updatedTodo)
-        return res.status(500).json({ message: "Todo is not updated" });
+        return res.status(500).json({ message: "Error updating todo" });
 
     return res.status(200).json({ message: "Todo updated" });
 }
@@ -33,7 +33,7 @@ export async function deleteTodo(req: Request, res: Response) {
 
     const deletedTodo = await database.deleteTodo(id, todoID);
     if (!deletedTodo)
-        return res.status(500).json({ message: "Todo is not deleted" });
+        return res.status(500).json({ message: "Error deleting todo" });
 
     return res.status(200).json({ message: "Todo deleted" });
 }
@@ -47,7 +47,8 @@ export async function insertTodo(req: Request, res: Response) {
         return res.status(400).json({ message: "Todo content is too long" });
 
     const todos = await database.getTodos(id);
-    if (!todos) return res.status(500).json({ message: "Failed to get todo" });
+    if (!todos)
+        return res.status(500).json({ message: "Error inserting todo" });
     if (todos.length >= 20)
         return res.status(400).json({ message: "Too many todos" });
 
@@ -59,7 +60,7 @@ export async function insertTodo(req: Request, res: Response) {
 
     const insertedTodo = await database.insertTodo(id, todo);
     if (!insertedTodo)
-        return res.status(500).json({ message: "Todo is not inserted" });
+        return res.status(500).json({ message: "Error inserting todo" });
 
     return res.status(201).json({ message: "Todo created" });
 }
