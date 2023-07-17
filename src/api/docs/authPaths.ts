@@ -114,12 +114,10 @@ const authPaths = {
             parameters: [
                 {
                     in: "query",
-                    name: "link",
+                    name: "token",
                     schema: {
                         type: "string",
-                        description: "Activation link",
-                        exmaple:
-                            "http://localhost:5000/api/auth/activate?token=MTYyMjIyMjIyMjIyMjIyMg",
+                        description: "Token from email",
                     },
                 },
             ],
