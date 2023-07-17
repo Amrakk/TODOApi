@@ -227,7 +227,7 @@ const authPaths = {
         post: {
             tags: ["Auth"],
             summary: "Reset user password",
-            requestbody: {
+            requestBody: {
                 content: {
                     "application/json": {
                         schema: {
