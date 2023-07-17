@@ -6,27 +6,36 @@ export default function logger(
     res: Response,
     next: NextFunction
 ) {
-    const ip = req.ip;
-    const method = req.method.toUpperCase();
-    const uri = req.url;
-    const statusCode = res.statusCode;
-    const timestamp = new Date().toLocaleString("en-US", {
-        month: "short",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false,
+    res.on("finish", () => {
+        const ip = req.ip;
+        const method = req.method.toUpperCase();
+        const uri = req.url;
+        const statusCode = res.statusCode;
+        const timestamp = new Date().toLocaleString("en-US", {
+            month: "short",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: false,
+        });
+
+        const { colors } = settings;
+        let log =
+            `${colors.magenta}[${ip}] ` +
+            `${colors.cyan}[${timestamp}] ` +
+            `${colors.green}${method} ` +
+            `${colors.reset}- ` +
+            `${colors.yellow}"${uri}" `;
+
+        if (statusCode >= 400) log += `${colors.red}`;
+        else if (statusCode >= 300) log += `${colors.yellow}`;
+        else if (statusCode >= 200) log += `${colors.green}`;
+        else log += `${colors.reset}`;
+
+        log += `${statusCode}${colors.reset} -`;
+
+        console.log(log);
     });
-
-    const { colors } = settings;
-    console.log(
-        `${colors.cyan}[${timestamp}]${colors.reset} ` +
-            `${colors.magenta}[${ip}]${colors.reset} ` +
-            `${colors.green}${method}${colors.reset} - ` +
-            `${colors.yellow}"${uri}"${colors.reset} ` +
-            `${colors.red}${statusCode}${colors.reset} -`
-    );
-
     return next();
 }

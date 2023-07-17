@@ -1,11 +1,8 @@
 import express from "express";
 import * as api from "../api/index.js";
 import verify from "../middleware/verify.js";
-import logger from "../middleware/logger/logger.js";
 
 const router = express.Router();
-
-router.use(logger);
 
 router.post("/api/v2/login", api.login);
 router.post("/api/v2/signup", api.signup);
