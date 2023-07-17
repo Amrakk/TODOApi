@@ -25,7 +25,6 @@ export default async function activate(req: Request, res: Response) {
 
         return res.status(200).json({ message: "Account activated" });
     } catch (error) {
-        console.log(error);
         return res.status(401).json({ message: "Invalid token" });
     }
 }
