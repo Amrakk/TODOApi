@@ -11,11 +11,11 @@ import logger from "./middleware/logger/logger.js";
 const app = express();
 
 app.use(cors());
-app.use(logger);
 app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use(logger);
 app.use(router);
 
 app.listen(process.env.PORT, async () => {
