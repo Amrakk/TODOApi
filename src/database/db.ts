@@ -133,7 +133,7 @@ const updateTodo = async (id: string, todo: ITodo) => {
     try {
         const result = await users.updateOne(
             { id: id, todos: { $elemMatch: { id: todo.id } } },
-            { $set: { "todos.$.completed": todo.completed } }
+            { $set: { "todos.$": todo } }
         );
 
         return result.acknowledged;

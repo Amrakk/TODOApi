@@ -51,7 +51,13 @@ const todoPaths = {
                 content: {
                     "application/json": {
                         schema: {
-                            $ref: "#/components/schemas/Todo",
+                            type: "object",
+                            required: ["todo"],
+                            properties: {
+                                todo: {
+                                    $ref: "#/components/schemas/Todo",
+                                },
+                            },
                         },
                     },
                 },
