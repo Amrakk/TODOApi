@@ -125,9 +125,9 @@ const todoPaths = {
                     "application/json": {
                         schema: {
                             type: "object",
-                            required: ["id"],
+                            required: ["todoIDs"],
                             properties: {
-                                id: {
+                                todoIDs: {
                                     type: "array",
                                     items: {
                                         type: "string",

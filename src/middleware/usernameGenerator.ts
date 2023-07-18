@@ -31,11 +31,8 @@ function generateUsername(username: string) {
 
         const generatedUsername = username + randomString;
 
-        if (generatedUsername) {
-            resolve(generatedUsername);
-        } else {
-            reject("Failed to generate a username.");
-        }
+        if (generatedUsername) resolve(generatedUsername);
+        else reject("Failed to generate a username.");
     });
 }
 
