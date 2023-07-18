@@ -27,13 +27,15 @@ export async function updateTodo(req: Request, res: Response) {
 
 export async function deleteTodo(req: Request, res: Response) {
     const id = req.ctx.id;
-    const todoID = req.body.todoID ?? "";
+    const todoIDs = req.body.todoIDs ?? "";
 
-    if (!todoID) return res.status(400).json({ message: "No todo provided" });
+    if (!todoIDs) return res.status(400).json({ message: "No todo provided" });
 
-    const deletedTodo = await database.deleteTodo(id, todoID);
-    if (!deletedTodo)
-        return res.status(500).json({ message: "Error deleting todo" });
+    while (todoIDs.length > 0) {
+        const deletedTodo = await database.deleteTodo(id, todoIDs.pop());
+        if (!deletedTodo)
+            return res.status(500).json({ message: "Error deleting todo" });
+    }
 
     return res.status(200).json({ message: "Todo deleted" });
 }

@@ -128,9 +128,11 @@ const todoPaths = {
                             required: ["id"],
                             properties: {
                                 id: {
-                                    type: "string",
-                                    description: "Todo id to be deleted",
-                                    example: "123abc",
+                                    type: "array",
+                                    items: {
+                                        type: "string",
+                                        description: "Todo id to be deleted",
+                                    },
                                 },
                             },
                         },
