@@ -10,7 +10,26 @@ const todoPaths = {
             ],
             responses: {
                 200: {
-                    $ref: "#/components/responses/200",
+                    description: "Todos retrieved successfully",
+                    content: {
+                        "application/json": {
+                            schema: {
+                                type: "object",
+                                properties: {
+                                    message: {
+                                        type: "string",
+                                        example: "Todos retrieved successfully",
+                                    },
+                                    todos: {
+                                        type: "array",
+                                        items: {
+                                            $ref: "#/components/schemas/Todo",
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
                 },
                 401: {
                     $ref: "#/components/responses/401",

@@ -148,8 +148,6 @@ const authPaths = {
                     schema: {
                         type: "string",
                         description: "Token from cookie",
-                        example:
-                            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.MTc3MH0.7EqMyBMGzCW3x43Z93xKPRboQ3SuhfBoyadeuJS6M94",
                     },
                 },
             ],
