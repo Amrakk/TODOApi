@@ -11,7 +11,13 @@ export default function logger(
         const method = req.method.toUpperCase();
         const uri = req.url;
         const statusCode = res.statusCode;
-        const timestamp = new Date().toLocaleString("en-US", {
+        const timestamp = new Date();
+        const timeZoneOffset = 7;
+
+        const localTimestamp = new Date(
+            timestamp.getTime() + timeZoneOffset * 60 * 60 * 1000
+        ).toLocaleString("en-US", {
+            timeZone: "UTC",
             month: "short",
             day: "2-digit",
             hour: "2-digit",
@@ -23,7 +29,7 @@ export default function logger(
         const { colors } = settings;
         let log =
             `${colors.magenta}[${ip}] ` +
-            `${colors.cyan}[${timestamp}] ` +
+            `${colors.cyan}[${localTimestamp}] ` +
             `${colors.green}${method} ` +
             `${colors.reset}- ` +
             `${colors.yellow}"${uri}" `;
