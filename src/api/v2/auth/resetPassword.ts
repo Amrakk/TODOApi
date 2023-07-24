@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import database from "../../../database/db.js";
-import cache from "../../../database/OTPCache.js";
+import cache from "../../../database/cache.js";
 import { valEmail, valPassword } from "../../../middleware/validateInput.js";
 
 export default async function resetPassword(req: Request, res: Response) {

@@ -52,12 +52,36 @@ const verifyOTP = async (email: string, otp: string) => {
     return false;
 };
 
+const getRefToken = async (id: string) => {
+    return await redis.get(id);
+};
+
+const setRefToken = async (id: string, token: string) => {
+    if ((await redis.set(id, token, "EX", 60 * 60 * 24 * 7)) === "OK")
+        return true;
+    return false;
+};
+
+const verifyRefToken = async (id: string, token: string) => {
+    if ((await getRefToken(id)) === token) return true;
+    return false;
+};
+
+const deleteRefToken = async (id: string) => {
+    if ((await redis.del(id)) === 1) return true;
+    return false;
+};
+
 const cache = {
     init,
     close,
     setOTP,
     getOTP,
     verifyOTP,
+    getRefToken,
+    setRefToken,
+    verifyRefToken,
+    deleteRefToken,
 };
 
 export default cache;

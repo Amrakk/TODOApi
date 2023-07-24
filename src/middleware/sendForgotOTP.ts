@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import cache from "../database/OTPCache.js";
+import cache from "../database/cache.js";
 
 export default async function sendForgotOTP(email: string) {
     const transporter = nodemailer.createTransport({

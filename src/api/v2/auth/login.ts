@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
 import database from "../../../database/db.js";
 import sendActivationURL from "../../../middleware/sendActivationURL.js";
+import createAccessToken from "../../../middleware/createAccessToken.js";
 import { valUsername, valPassword } from "../../../middleware/validateInput.js";
 
 export default async function login(req: Request, res: Response) {
@@ -29,10 +30,16 @@ export default async function login(req: Request, res: Response) {
         return res.status(403).json({ message: "Account not activated" });
     }
 
-    const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY as string, {
-        expiresIn: "5h",
-    });
+    const access_token = createAccessToken(user.id);
+    const ref_token = jwt.sign(
+        { id: user.id },
+        process.env.REFRESH_SECRET_KEY as string,
+        {
+            expiresIn: "7d",
+        }
+    );
 
-    res.cookie("token", token, { httpOnly: true });
+    res.cookie("ref_token", ref_token, { httpOnly: true });
+    res.cookie("access_token", access_token, { httpOnly: true });
     return res.status(200).json({ message: "Valid credentials" });
 }
