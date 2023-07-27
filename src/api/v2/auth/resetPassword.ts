@@ -8,14 +8,15 @@ export default async function resetPassword(req: Request, res: Response) {
     const { email, otp, password } = req.body;
 
     if (!email || !otp || !password)
-        return res.status(400).json({ message: "Invalid credentials " });
+        return res.status(400).json({ message: "Invalid credentials" });
     if (!valEmail(email))
         return res.status(400).json({ message: "Invalid email" });
     if (!valPassword(password))
         return res.status(400).json({ message: "Invalid password" });
 
     const isVerified = await cache.verifyOTP(email, otp);
-    if (!isVerified) return res.status(403).json({ message: "Invalid OTP" });
+    if (!isVerified)
+        return res.status(403).json({ message: "Invalid OTP or email" });
 
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
