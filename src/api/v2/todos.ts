@@ -17,6 +17,8 @@ export async function updateTodo(req: Request, res: Response) {
     const todo = req.body.todo ?? "";
 
     if (!todo) return res.status(400).json({ message: "No todo provided" });
+    if (todo.content.length > 100)
+        return res.status(400).json({ message: "Todo content is too long" });
 
     const updatedTodo = await database.updateTodo(id, todo);
     if (!updatedTodo)
