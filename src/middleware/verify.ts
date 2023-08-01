@@ -39,6 +39,7 @@ export default async function verify(
 
         const new_access_token = createAccessToken(ref_payload.id);
         res.cookie("access_token", new_access_token, {
+            secure: true,
             httpOnly: true,
             sameSite: "none",
         });

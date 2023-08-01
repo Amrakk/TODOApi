@@ -39,8 +39,13 @@ export default async function login(req: Request, res: Response) {
         }
     );
 
-    res.cookie("ref_token", ref_token, { httpOnly: true, sameSite: "none" });
+    res.cookie("ref_token", ref_token, {
+        secure: true,
+        httpOnly: true,
+        sameSite: "none",
+    });
     res.cookie("access_token", access_token, {
+        secure: true,
         httpOnly: true,
         sameSite: "none",
     });
