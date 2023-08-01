@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 
 export default async function sendActivationURL(email: string) {
-    const host = process.env.CLIENT_HOST ?? "";
+    const host = process.env.CLIENT_URL ?? "";
 
     const token = jwt.sign({ email: email }, process.env.SECRET_KEY as string, {
         expiresIn: "20m",
