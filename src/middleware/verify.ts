@@ -38,7 +38,10 @@ export default async function verify(
             return res.status(401).json({ message: "Invalid token" });
 
         const new_access_token = createAccessToken(ref_payload.id);
-        res.cookie("access_token", new_access_token, { httpOnly: true });
+        res.cookie("access_token", new_access_token, {
+            httpOnly: true,
+            sameSite: "none",
+        });
         id = ref_payload.id;
     } else id = access_payload.id;
 
