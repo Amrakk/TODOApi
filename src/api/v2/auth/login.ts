@@ -6,6 +6,7 @@ import sendActivationURL from "../../../middleware/sendActivationURL.js";
 import createAccessToken from "../../../middleware/createAccessToken.js";
 import { valUsername, valPassword } from "../../../middleware/validateInput.js";
 
+const isDev = process.env.ENV === "development";
 export default async function login(req: Request, res: Response) {
     const { username, password } = req.body;
 
@@ -32,14 +33,14 @@ export default async function login(req: Request, res: Response) {
     });
 
     res.cookie("ref_token", ref_token, {
-        secure: true,
+        secure: !isDev,
         httpOnly: true,
-        sameSite: "none",
+        sameSite: isDev ? "lax" : "none",
     });
     res.cookie("access_token", access_token, {
-        secure: true,
+        secure: !isDev,
         httpOnly: true,
-        sameSite: "none",
+        sameSite: isDev ? "lax" : "none",
     });
     return res.status(200).json({ message: "Valid credentials" });
 }
